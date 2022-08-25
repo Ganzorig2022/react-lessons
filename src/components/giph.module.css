@@ -1,0 +1,42 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+}
+.searchArea {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.searchArea button {
+  margin-top: 10px;
+  background-color: green;
+  color: aliceblue;
+  padding: 10px;
+}
+.imageContainer {
+  width: 1500px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.img {
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: 10px;
+  overflow: hidden;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.img img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
