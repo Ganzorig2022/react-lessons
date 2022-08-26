@@ -329,9 +329,13 @@ const App = () => {
   const [enteredSearch, setEnteredSearch] = useState('');
   const [getSearch, setGetSearch] = useState('');
   const [giphData, setGiphData] = useState([]);
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
-    if (getSearch !== '') getGiphDataFromAPI();
+    if (getSearch !== '') {
+      getGiphDataFromAPI();
+      setLoading(true);
+    }
   }, [getSearch]);
 
   const searchHandler = (event) => {
@@ -340,7 +344,7 @@ const App = () => {
 
   const getGiphResult = () => {
     setGetSearch(enteredSearch);
-    setEnteredSearch('');
+    // setEnteredSearch('');
   };
 
   const getGiphDataFromAPI = async () => {
@@ -348,6 +352,7 @@ const App = () => {
       const data = await axios.get(
         `https://api.giphy.com/v1/gifs/search?api_key=NptZhhwltiR6lI9tdXlwA40mvrAPW064&q=${getSearch})`
       );
+      setLoading(false);
       setGiphData([...data.data.data]);
     } catch (error) {
       alert(error.message);
@@ -367,13 +372,17 @@ const App = () => {
         <button onClick={getGiphResult}>Search</button>
       </div>
       <div className={styles.imageContainer}>
-        {giphData.map((data, idx) => {
-          return (
-            <div className={styles.img} key={idx}>
-              <img key={idx} src={data.images.original.url} />
-            </div>
-          );
-        })}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          giphData.map((data, idx) => {
+            return (
+              <div className={styles.img} key={idx}>
+                <img key={idx} src={data.images.original.url} />
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
