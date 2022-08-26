@@ -320,72 +320,180 @@ import './App.css';
 // export default App;
 
 // ======================GIPHY SEARCH MISSION==============
-import axios from 'axios';
+// import axios from 'axios';
+// import { useState } from 'react';
+// import { useEffect } from 'react';
+// import styles from './components/giph.module.css';
+
+// const App = () => {
+//   const [enteredSearch, setEnteredSearch] = useState('');
+//   const [getSearch, setGetSearch] = useState('');
+//   const [giphData, setGiphData] = useState([]);
+//   const [loading, setLoading] = useState();
+
+//   useEffect(() => {
+//     if (getSearch !== '') {
+//       getGiphDataFromAPI();
+//       setLoading(true);
+//     }
+//   }, [getSearch]);
+
+//   const searchHandler = (event) => {
+//     setEnteredSearch(event.target.value);
+//   };
+
+//   const getGiphResult = () => {
+//     setGetSearch(enteredSearch);
+//     // setEnteredSearch('');
+//   };
+
+//   const getGiphDataFromAPI = async () => {
+//     try {
+//       const data = await axios.get(
+//         `https://api.giphy.com/v1/gifs/search?api_key=NptZhhwltiR6lI9tdXlwA40mvrAPW064&q=${getSearch})`
+//       );
+//       setLoading(false);
+//       setGiphData([...data.data.data]);
+//     } catch (error) {
+//       alert(error.message);
+//     }
+//   };
+
+//   return (
+//     <div className={styles.mainWrapper}>
+//       <div className={styles.searchArea}>
+//         <h2 htmlFor=''>GIPHY IMAGE SEARCH by GANZO</h2>
+//         <input
+//           type='text'
+//           value={enteredSearch}
+//           placeholder='please enter your search text'
+//           onChange={searchHandler}
+//         />
+//         <button onClick={getGiphResult}>Search</button>
+//       </div>
+//       <div className={styles.imageContainer}>
+//         {loading ? (
+//           <p>Loading...</p>
+//         ) : (
+//           giphData.map((data, idx) => {
+//             return (
+//               <div className={styles.img} key={idx}>
+//                 <img key={idx} src={data.images.original.url} />
+//               </div>
+//             );
+//           })
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
 import { useState } from 'react';
 import { useEffect } from 'react';
-import styles from './components/giph.module.css';
+import './components/snake.css';
 
 const App = () => {
-  const [enteredSearch, setEnteredSearch] = useState('');
-  const [getSearch, setGetSearch] = useState('');
-  const [giphData, setGiphData] = useState([]);
-  const [loading, setLoading] = useState();
+  const [snakeLoc, setSnakeLoc] = useState({ row: 5, col: 5 });
+  const [keyCode, setCode] = useState('');
+
+  const board = new Array(10).fill(new Array(10).fill(''));
 
   useEffect(() => {
-    if (getSearch !== '') {
-      getGiphDataFromAPI();
-      setLoading(true);
-    }
-  }, [getSearch]);
+    const keyHandler = (event) => {
+      const code = event.keyCode;
+      // if (event.keyCode == 119) {
+      //   setCode(event.keyCode)
+      //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row-- });
+      // }
+      // //DOWN
+      // if (event.keyCode == 100) {
+      //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col++ });
+      // }
+      // //RIGHT
+      // if (event.keyCode == 115) {
+      //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row++ });
+      // }
+      // //LEFT
+      // if (event.keyCode == 97) {
+      //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col-- });
+      // }
+      setCode(code);
+    };
+    window.addEventListener('keypress', keyHandler);
+    //UP
 
-  const searchHandler = (event) => {
-    setEnteredSearch(event.target.value);
-  };
+    // w == 119;
+    // d == 100;
+    // s == 115;
+    // a == 97;
 
-  const getGiphResult = () => {
-    setGetSearch(enteredSearch);
-    // setEnteredSearch('');
-  };
+    return () => {
+      window.removeEventListener('keypress', keyHandler);
+    };
+  }, []);
 
-  const getGiphDataFromAPI = async () => {
-    try {
-      const data = await axios.get(
-        `https://api.giphy.com/v1/gifs/search?api_key=NptZhhwltiR6lI9tdXlwA40mvrAPW064&q=${getSearch})`
-      );
-      setLoading(false);
-      setGiphData([...data.data.data]);
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  useEffect(() => {
+    // if (event.keyCode == 119) {
+    //   setCode(event.keyCode)
+    //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row-- });
+    // }
+    // //DOWN
+    // if (event.keyCode == 100) {
+    //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col++ });
+    // }
+    // //RIGHT
+    // if (event.keyCode == 115) {
+    //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row++ });
+    // }
+    // //LEFT
+    // if (event.keyCode == 97) {
+    //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col-- });
+    // }
+  }, [code]);
+  console.log(snakeLoc);
 
   return (
-    <div className={styles.mainWrapper}>
-      <div className={styles.searchArea}>
-        <h2 htmlFor=''>GIPHY IMAGE SEARCH by GANZO</h2>
-        <input
-          type='text'
-          value={enteredSearch}
-          placeholder='please enter your search text'
-          onChange={searchHandler}
-        />
-        <button onClick={getGiphResult}>Search</button>
-      </div>
-      <div className={styles.imageContainer}>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          giphData.map((data, idx) => {
-            return (
-              <div className={styles.img} key={idx}>
-                <img key={idx} src={data.images.original.url} />
-              </div>
-            );
-          })
-        )}
-      </div>
+    <div
+      style={{
+        height: '500px',
+        width: '500px',
+      }}
+    >
+      {board.map((row, i) => {
+        return (
+          <div
+            key={i}
+            style={{
+              display: 'flex',
+              height: '50px',
+              border: '1px solid',
+            }}
+          >
+            {row.map((col, j) => {
+              return (
+                <div
+                  key={j}
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    border: '1px solid',
+                  }}
+                  col={j + 1}
+                  row={i + 1}
+                  className={
+                    snakeLoc.col == j + 1 && snakeLoc.row == i + 1
+                      ? 'black'
+                      : 'white'
+                  }
+                >
+                  {j + 1}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 };
-
 export default App;
