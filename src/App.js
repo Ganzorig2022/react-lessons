@@ -137,7 +137,7 @@ import './App.css';
 
 // import React, { useState } from 'react';
 
-//import './App.css';
+// import './App.css';
 
 // function App() {
 //   const pStyle = {
@@ -388,112 +388,206 @@ import './App.css';
 //   );
 // };
 
-import { useState } from 'react';
-import { useEffect } from 'react';
-import './components/snake.css';
+// import { useState } from 'react';
+// import { useEffect } from 'react';
+// import './components/snake.css';
+
+// const App = () => {
+//   const [snakeLoc, setSnakeLoc] = useState({ row: 5, col: 5 });
+//   const [keyCode, setCode] = useState('');
+
+//   const board = new Array(10).fill(new Array(10).fill(''));
+
+//   useEffect(() => {
+//     const keyHandler = (event) => {
+//       const code = event.keyCode;
+//       // if (event.keyCode == 119) {
+//       //   setCode(event.keyCode)
+//       //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row-- });
+//       // }
+//       // //DOWN
+//       // if (event.keyCode == 100) {
+//       //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col++ });
+//       // }
+//       // //RIGHT
+//       // if (event.keyCode == 115) {
+//       //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row++ });
+//       // }
+//       // //LEFT
+//       // if (event.keyCode == 97) {
+//       //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col-- });
+//       // }
+//       setCode(code);
+//     };
+//     window.addEventListener('keypress', keyHandler);
+//     //UP
+
+//     // w == 119;
+//     // d == 100;
+//     // s == 115;
+//     // a == 97;
+
+//     return () => {
+//       window.removeEventListener('keypress', keyHandler);
+//     };
+//   }, []);
+
+//   useEffect(() => {
+//     // if (event.keyCode == 119) {
+//     //   setCode(event.keyCode)
+//     //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row-- });
+//     // }
+//     // //DOWN
+//     // if (event.keyCode == 100) {
+//     //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col++ });
+//     // }
+//     // //RIGHT
+//     // if (event.keyCode == 115) {
+//     //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row++ });
+//     // }
+//     // //LEFT
+//     // if (event.keyCode == 97) {
+//     //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col-- });
+//     // }
+//   }, [code]);
+//   console.log(snakeLoc);
+
+//   return (
+//     <div
+//       style={{
+//         height: '500px',
+//         width: '500px',
+//       }}
+//     >
+//       {board.map((row, i) => {
+//         return (
+//           <div
+//             key={i}
+//             style={{
+//               display: 'flex',
+//               height: '50px',
+//               border: '1px solid',
+//             }}
+//           >
+//             {row.map((col, j) => {
+//               return (
+//                 <div
+//                   key={j}
+//                   style={{
+//                     width: '50px',
+//                     height: '50px',
+//                     border: '1px solid',
+//                   }}
+//                   col={j + 1}
+//                   row={i + 1}
+//                   className={
+//                     snakeLoc.col == j + 1 && snakeLoc.row == i + 1
+//                       ? 'black'
+//                       : 'white'
+//                   }
+//                 >
+//                   {j + 1}
+//                 </div>
+//               );
+//             })}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+// export default App;
+// import { useRef } from 'react';
+// import { toast } from 'react-toastify';
+
+//===================MISSION - STOPWATCH====================
+// import { useState, useEffect } from 'react';
+
+// const App = () => {
+//   const [start, setStart] = useState(false);
+//   const [time, setTime] = useState(0);
+//   let interval = null;
+
+//   useEffect(() => {
+//     if (start) {
+//       interval = setInterval(() => {
+//         setTime((prevTime) => prevTime + 10);
+//       }, 10);
+//       return () => clearInterval(interval);
+//     }
+//   }, [start]);
+
+//   const onStart = () => {
+//     setStart(true);
+//   };
+//   const onPause = () => {
+//     setStart(false);
+//   };
+//   const onReset = () => {
+//     setTime(0);
+//   };
+//   console.log(start);
+//   return (
+//     <div>
+//       <h3>STOPWATCH</h3>
+//       <span>{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+//       <span>{('0' + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
+//       <span>{('0' + Math.floor((time / 10) % 100)).slice(-2)}</span>
+//       <br />
+//       <button onClick={onStart}>START</button>
+//       <button onClick={onPause}>PAUSE</button>
+//       <button onClick={onReset}>RESET</button>
+//     </div>
+//   );
+// };
+
+// export default App;
+
+//==================LESSON - useReducer()=======================
+import { useState, useEffect, useReducer } from 'react';
 
 const App = () => {
-  const [snakeLoc, setSnakeLoc] = useState({ row: 5, col: 5 });
-  const [keyCode, setCode] = useState('');
-
-  const board = new Array(10).fill(new Array(10).fill(''));
-
-  useEffect(() => {
-    const keyHandler = (event) => {
-      const code = event.keyCode;
-      // if (event.keyCode == 119) {
-      //   setCode(event.keyCode)
-      //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row-- });
-      // }
-      // //DOWN
-      // if (event.keyCode == 100) {
-      //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col++ });
-      // }
-      // //RIGHT
-      // if (event.keyCode == 115) {
-      //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row++ });
-      // }
-      // //LEFT
-      // if (event.keyCode == 97) {
-      //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col-- });
-      // }
-      setCode(code);
-    };
-    window.addEventListener('keypress', keyHandler);
-    //UP
-
-    // w == 119;
-    // d == 100;
-    // s == 115;
-    // a == 97;
-
-    return () => {
-      window.removeEventListener('keypress', keyHandler);
-    };
-  }, []);
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'start':
+        return { ...state, start: true };
+      case 'stop':
+        return { ...state, start: false };
+      case 'reset':
+        return { start: false, time: 0 };
+      default:
+        return { ...state, time: state.time + 10 };
+    }
+  };
+  const initialState = {
+    start: false,
+    time: 0,
+  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    // if (event.keyCode == 119) {
-    //   setCode(event.keyCode)
-    //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row-- });
-    // }
-    // //DOWN
-    // if (event.keyCode == 100) {
-    //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col++ });
-    // }
-    // //RIGHT
-    // if (event.keyCode == 115) {
-    //   setSnakeLoc({ ...snakeLoc, row: snakeLoc.row++ });
-    // }
-    // //LEFT
-    // if (event.keyCode == 97) {
-    //   setSnakeLoc({ ...snakeLoc, col: snakeLoc.col-- });
-    // }
-  }, [code]);
-  console.log(snakeLoc);
+    if (state.start) {
+      let interval = setInterval(() => {
+        dispatch(state.time + 10);
+      }, 10);
+      return () => clearInterval(interval);
+    }
+  }, [state.start]);
 
   return (
-    <div
-      style={{
-        height: '500px',
-        width: '500px',
-      }}
-    >
-      {board.map((row, i) => {
-        return (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              height: '50px',
-              border: '1px solid',
-            }}
-          >
-            {row.map((col, j) => {
-              return (
-                <div
-                  key={j}
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    border: '1px solid',
-                  }}
-                  col={j + 1}
-                  row={i + 1}
-                  className={
-                    snakeLoc.col == j + 1 && snakeLoc.row == i + 1
-                      ? 'black'
-                      : 'white'
-                  }
-                >
-                  {j + 1}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+    <div>
+      <h3>STOPWATCH</h3>
+      <span>{('0' + Math.floor((state.time / 60000) % 60)).slice(-2)}:</span>
+      <span>{('0' + Math.floor((state.time / 1000) % 60)).slice(-2)}:</span>
+      <span>{('0' + Math.floor((state.time / 10) % 100)).slice(-2)}</span>
+      <br />
+      <button onClick={() => dispatch({ type: 'start' })}>START</button>
+      <button onClick={() => dispatch({ type: 'stop' })}>PAUSE</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>RESET</button>
     </div>
   );
 };
+
 export default App;
+
+//==================LESSON - useMemo()=======================
