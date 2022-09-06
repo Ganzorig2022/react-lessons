@@ -544,9 +544,60 @@ import './App.css';
 // export default App;
 
 //==================LESSON - useReducer()=======================
-import { useState, useEffect, useReducer } from 'react';
+// import { useState, useEffect, useReducer } from 'react';
+
+// const App = () => {
+//   const reducer = (state, action) => {
+//     switch (action.type) {
+//       case 'start':
+//         return { ...state, start: true };
+//       case 'stop':
+//         return { ...state, start: false };
+//       case 'reset':
+//         return { start: false, time: 0 };
+//       default:
+//         return { ...state, time: state.time + 10 };
+//     }
+//   };
+//   const initialState = {
+//     start: false,
+//     time: 0,
+//   };
+//   const [state, dispatch] = useReducer(reducer, initialState);
+
+//   useEffect(() => {
+//     if (state.start) {
+//       let interval = setInterval(() => {
+//         dispatch(state.time + 10);
+//       }, 10);
+//       return () => clearInterval(interval);
+//     }
+//   }, [state.start]);
+
+//   return (
+//     <div>
+//       <h3>STOPWATCH</h3>
+//       <span>{('0' + Math.floor((state.time / 60000) % 60)).slice(-2)}:</span>
+//       <span>{('0' + Math.floor((state.time / 1000) % 60)).slice(-2)}:</span>
+//       <span>{('0' + Math.floor((state.time / 10) % 100)).slice(-2)}</span>
+//       <br />
+//       <button onClick={() => dispatch({ type: 'start' })}>START</button>
+//       <button onClick={() => dispatch({ type: 'stop' })}>PAUSE</button>
+//       <button onClick={() => dispatch({ type: 'reset' })}>RESET</button>
+//     </div>
+//   );
+// };
+
+// export default App;
+
+//==================LESSON - useMemo()=======================
+import { useState, useEffect, useReducer, useMemo, useRef } from 'react';
 
 const App = () => {
+  const [number, setNumber] = useState(0);
+  const [prime, setPrime] = useState([]);
+  const inputRef = useRef(0);
+
   const reducer = (state, action) => {
     switch (action.type) {
       case 'start':
@@ -574,6 +625,29 @@ const App = () => {
     }
   }, [state.start]);
 
+  // memoization
+  const primeCheck = (number) => {
+    let arr = [];
+    for (let i = 2; i <= number; i++) {
+      let isPrime = true;
+
+      for (let j = 2; j < i; j++) {
+        if (i % j == 0) {
+          isPrime = false;
+          break;
+        }
+      }
+      if (i > 1 && isPrime) {
+        arr.push(i);
+      }
+    }
+    return arr;
+  };
+
+  const memoizedValue = useMemo(() => {
+    return primeCheck(number);
+  }, [number]);
+
   return (
     <div>
       <h3>STOPWATCH</h3>
@@ -584,10 +658,18 @@ const App = () => {
       <button onClick={() => dispatch({ type: 'start' })}>START</button>
       <button onClick={() => dispatch({ type: 'stop' })}>PAUSE</button>
       <button onClick={() => dispatch({ type: 'reset' })}>RESET</button>
+      <input
+        type='number'
+        ref={inputRef}
+        placeholder='please enter your number'
+      />
+      <button onClick={() => setNumber(inputRef.current.value)}>
+        Print prime number
+      </button>
+      <span>{memoizedValue.join(',')}</span>
+      <div>Total prime number is: {memoizedValue.length}</div>
     </div>
   );
 };
 
 export default App;
-
-//==================LESSON - useMemo()=======================
