@@ -1,5 +1,5 @@
 //import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 //import CreateCell from './components/snake';
 
 // const App = () => {
@@ -591,7 +591,29 @@ import './App.css';
 // export default App;
 
 //==================LESSON - useMemo()=======================
+//==================MATERIAL UI=============================
+import * as React from 'react';
 import { useState, useEffect, useReducer, useMemo, useRef } from 'react';
+import {
+  Button,
+  Input,
+  Box,
+  TextField,
+  AppBar,
+  Toolbar,
+  Typography,
+  Menu,
+} from '@mui/material';
+
+// import AppBar from '@mui/material/AppBar';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import OutputIcon from '@mui/icons-material/Output';
+import IconButton from '@mui/material/IconButton';
+import PauseIcon from '@mui/icons-material/Pause';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 const App = () => {
   const [number, setNumber] = useState(0);
@@ -648,27 +670,113 @@ const App = () => {
     return primeCheck(number);
   }, [number]);
 
+  const styles = {
+    Box: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'grey',
+      margin: '0 auto',
+    },
+    button3: {
+      backgroundColor: 'black',
+      '&:hover': {
+        backgroundColor: 'red',
+      },
+      color: 'white',
+    },
+    input: {
+      border: '1px solid black',
+      borderRadius: '5px',
+    },
+    margin20: {
+      margin: '20px',
+    },
+  };
   return (
-    <div>
+    <Box sx={styles.Box}>
+      <AppBar position='static'>
+        <Toolbar>
+          <IconButton
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='menu'
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon>
+              <PopupState variant='popover' popupId='demo-popup-menu'>
+                {(popupState) => (
+                  <React.Fragment>
+                    <Button variant='contained' {...bindTrigger(popupState)}>
+                      Dashboard
+                    </Button>
+                    <Menu {...bindMenu(popupState)}>
+                      <MenuItem onClick={popupState.close}>Profile</MenuItem>
+                      <MenuItem onClick={popupState.close}>My account</MenuItem>
+                      <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                    </Menu>
+                  </React.Fragment>
+                )}
+              </PopupState>
+            </MenuIcon>
+          </IconButton>
+          <Typography>Timer and Prime Number Project</Typography>
+          <Button color='inherit'>Login</Button>
+        </Toolbar>
+      </AppBar>
       <h3>STOPWATCH</h3>
       <span>{('0' + Math.floor((state.time / 60000) % 60)).slice(-2)}:</span>
       <span>{('0' + Math.floor((state.time / 1000) % 60)).slice(-2)}:</span>
       <span>{('0' + Math.floor((state.time / 10) % 100)).slice(-2)}</span>
       <br />
-      <button onClick={() => dispatch({ type: 'start' })}>START</button>
-      <button onClick={() => dispatch({ type: 'stop' })}>PAUSE</button>
-      <button onClick={() => dispatch({ type: 'reset' })}>RESET</button>
-      <input
+      <Box margin='20px'>
+        <Button
+          color='error'
+          variant='contained'
+          sx={styles.margin20}
+          onClick={() => dispatch({ type: 'start' })}
+        >
+          START
+          <PlayCircleFilledWhiteIcon />
+        </Button>
+        <Button
+          variant='contained'
+          sx={styles.margin20}
+          onClick={() => dispatch({ type: 'stop' })}
+        >
+          PAUSE
+          <PauseIcon />
+        </Button>
+        <Button
+          variant='contained'
+          sx={styles.margin20}
+          onClick={() => dispatch({ type: 'reset' })}
+        >
+          RESET
+          <RestartAltIcon />
+        </Button>
+      </Box>
+      <TextField
         type='number'
         ref={inputRef}
+        sx={(styles.input, styles.margin20)}
         placeholder='please enter your number'
       />
-      <button onClick={() => setNumber(inputRef.current.value)}>
+      <Button
+        color='success'
+        variant='outlined'
+        size='large'
+        sx={styles.button3}
+        onClick={() => setNumber(inputRef.current.value)}
+      >
         Print prime number
-      </button>
+        <OutputIcon />
+      </Button>
       <span>{memoizedValue.join(',')}</span>
       <div>Total prime number is: {memoizedValue.length}</div>
-    </div>
+    </Box>
   );
 };
 
